@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::group(['prefix'=>'api/v1'],function(){
+    Route::get('user/{user_id}/events','EventController@userEvents');
+    
 });
