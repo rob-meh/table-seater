@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Table;
+use App\Models\MenuItem;
+
 class Guest extends Model
 {
     public function dietaryRestriction()
@@ -29,5 +31,10 @@ class Guest extends Model
     public function plusOneOf()
     {
         return Guest::where('plus_one','=',$this->id);
+    }
+
+    public function menuItem()
+    {
+        return $this->hasOne('MenuItem','id','menu_item_id');
     }
 }

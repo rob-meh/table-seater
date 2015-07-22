@@ -18,10 +18,14 @@ class DatabaseSeeder extends Seeder
         $this->call(TableTypeSeeder::class); 
         $this->call(DietaryRestrictionSeeder::class); 
         $this->call(EventSeeder::class); 
+        $this->call(MenuSeeder::class); 
+        $this->call(MenuItemSeeder::class); 
         $this->call(RoomSeeder::class); 
         $this->call(TableSeeder::class); 
         $this->call(GuestSeeder::class); 
+
         $this->call(SeatGuests::class); 
+        $this->call(FeedGuests::class); 
 
         Model::reguard();
     }
