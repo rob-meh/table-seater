@@ -16,6 +16,7 @@ class CreateDietaryRestrctionsTable extends Migration
         {
             $table->increments('id');
             $table->string('restriction');
+            $table->timestamps();
         });
     }
 

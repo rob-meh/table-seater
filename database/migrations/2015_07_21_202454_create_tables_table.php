@@ -17,12 +17,15 @@ class CreateTablesTable extends Migration
             $table->increments('id');
             $table->integer('number_of_seats')->nullable();
             $table->string('table_name');
+            $table->float('length')->nullable();
+            $table->float('width')->nullable();
 
-            $table->integer('room')->unsigned();
-            $table->foreign('room')->references('id')->on('rooms');
+            $table->integer('room_id')->unsigned();
+            $table->foreign('room_id')->references('id')->on('rooms');
 
-            $table->integer('table_type')->unsigned();
-            $table->foreign('table_type')->references('id')->on('table_types');
+            $table->integer('table_type_id')->unsigned();
+            $table->foreign('table_type_id')->references('id')->on('table_types');
+            $table->timestamps();
 
 
         });

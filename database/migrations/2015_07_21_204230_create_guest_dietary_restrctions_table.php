@@ -18,8 +18,9 @@ class CreateGuestDietaryRestrctionsTable extends Migration
             $table->integer('guest_id')->unsigned();
             $table->foreign('guest_id')->references('id')->on('guests');
 
-            $table->integer('restriction_id')->unsigned();
-            $table->foreign('restriction_id')->references('id')->on('dietary_restrictions');
+            $table->integer('dietary_restriction_id')->unsigned();
+            $table->foreign('dietary_restriction_id')->references('id')->on('dietary_restrictions');
+            $table->timestamps();
         });
     }
 

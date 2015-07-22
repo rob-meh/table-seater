@@ -20,6 +20,7 @@ class CreateRoomsTable extends Migration
 
             $table->float('length');
             $table->float('width');
+            $table->timestamps();
             
         });
     }

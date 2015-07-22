@@ -16,6 +16,7 @@ class CreateTableTypesTable extends Migration
         {
             $table->increments('id');
             $table->string('type');
+            $table->timestamps();
         });
     }
 
