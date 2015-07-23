@@ -26,7 +26,7 @@ class EventController extends Api\ApiController
 
         return $this->respond([
             'data'=>$events->toArray()
-        ]);
+            ]);
     }
 
     public function show($eventId)
@@ -39,7 +39,7 @@ class EventController extends Api\ApiController
         }
         return $this->respond([
             'data'=>$event->toArray()
-        ]);
+            ]);
     }
 
 
@@ -54,16 +54,8 @@ class EventController extends Api\ApiController
         {
             return $this->respondInvalidData($validator->errors());
         }
-        $event->user_id = Auth::user()->id;
         $event->fill($input);
         $event->save();
-        //TODO Why wont the users show up?
-        DB::enableQueryLog();
-        var_dump(Event::find(1)->user());
-        echo '<br>';
-        echo '<br>';
-        var_dump(DB::getQueryLog());
-        die();
     }
 
 

@@ -4,7 +4,7 @@ namespace App\Models;
 use App\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-
+use Auth;
 class Event extends BaseModel
 {
     //protected $hidden =['user_id'];
@@ -17,11 +17,17 @@ class Event extends BaseModel
 
     public function user()
     {
-    	$this->belongsTo('User');
+    	return $this->belongsTo('App\User');
     }
 
     public function guests()
     {
     	return $this->hasMany('Guest');
+    }
+
+    public function save(array $options = [ ] )
+    {
+        $this->user_id = Auth::user()->id;
+        return parent::save();
     }
 }

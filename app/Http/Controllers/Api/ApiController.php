@@ -29,7 +29,7 @@ class ApiController extends Controller
         return $this->setStatusCode(404)->respondWithError($message);
     }
 
-    public function  respondInvalidData($message = 'Some of the data entered is invalid')
+    public function respondInvalidData($message = 'Some of the data entered is invalid')
     {
         return $this->setStatusCode(500)->respondWithError($message);
     }
