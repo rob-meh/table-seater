@@ -1,11 +1,11 @@
-<?php
-
+<?php 
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class EventRequest extends Request
+class ApiAuthRequest extends Request
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +13,7 @@ class EventRequest extends Request
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class EventRequest extends Request
     public function rules()
     {
         return [
-            'email'=>'email'
+            'email' => 'required',
+            'password' => 'required',
         ];
     }
 }

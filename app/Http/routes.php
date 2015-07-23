@@ -10,11 +10,17 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::controllers([
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
+]);
 
+Route::post('/api/authenticate', 'Api\ApiAuthController@authenticate');
+Route::group(['prefix'=>'api','middleware'=>'jwt.auth'],function(){
 
-Route::group(['prefix'=>'api/v1'],function(){
-	Route::resource('/event','EventController');
-    Route::get('/event/all','EventController@allEvents');
+    Route::resource('event','EventController');
+    /*Route::get('/event/all','EventController@allEvents');
     Route::get('/event/{id}','EventController@getEvent');
-    
+    Route::post('/event/store','EventController@store');*/
+
 });

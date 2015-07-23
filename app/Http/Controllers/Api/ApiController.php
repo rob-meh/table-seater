@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 
@@ -27,6 +27,11 @@ class ApiController extends Controller
     public function respondNotFound($message = 'Not Found')
     {
         return $this->setStatusCode(404)->respondWithError($message);
+    }
+
+    public function  respondInvalidData($message = 'Some of the data entered is invalid')
+    {
+        return $this->setStatusCode(500)->respondWithError($message);
     }
 
 
