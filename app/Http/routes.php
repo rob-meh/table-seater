@@ -13,6 +13,8 @@
 
 
 Route::group(['prefix'=>'api/v1'],function(){
-    Route::get('user/{user_id}/events','EventController@userEvents');
+	Route::resource('/event','EventController');
+    Route::get('/event/all','EventController@allEvents');
+    Route::get('/event/{id}','EventController@getEvent');
     
 });
