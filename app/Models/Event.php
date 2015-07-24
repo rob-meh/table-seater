@@ -4,7 +4,9 @@ namespace App\Models;
 use App\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-use Auth;
+use App\Models\Menu;
+use App\Models\Room;
+use App\Models\Guest;
 class Event extends BaseModel
 {
     //protected $hidden =['user_id'];
@@ -21,9 +23,19 @@ class Event extends BaseModel
     	return $this->belongsTo('App\User');
     }
 
-    public function guests()
+    public function guestList()
     {
-    	return $this->hasMany('Guest');
+    	return $this->hasMany('App\Models\Guest');
+    }
+
+    public function menu()
+    {
+        return $this->hasOne('App\Models\Menu');
+    }
+
+    public function room()
+    {
+        return $this->hasOne('App\Models\Room');
     }
 
 }

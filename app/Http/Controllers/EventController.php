@@ -11,6 +11,7 @@ use Auth;
 use Response;
 use Input;
 use DB;
+
 class EventController extends Api\ApiController
 {
 
@@ -26,7 +27,7 @@ class EventController extends Api\ApiController
 
         return $this->respond([
             'data'=>$events->toArray()
-            ]);
+        ]);
     }
 
     public function show($eventId)
@@ -39,7 +40,7 @@ class EventController extends Api\ApiController
         }
         return $this->respond([
             'data'=>$event->toArray()
-            ]);
+        ]);
     }
 
 
@@ -71,7 +72,7 @@ class EventController extends Api\ApiController
         {
             return $this->respondNotFound('Event does not exist');
         }
-        
+
         $validator = $event->getValidator($input);
 
         if($validator->fails())
@@ -99,6 +100,48 @@ class EventController extends Api\ApiController
         $event->delete();
 
         return $this->respondDeleteSuccess($event_name . ' deleted');
+    }
+
+
+    public function getMenu($eventId)
+    {
+        $event = Event::find($eventId);
+        $menu = $event->menu;
+        if(!$menu)
+        {
+            return $this->respondNotFound('Menu Not Found!');
+        }
+        return $this->respond([
+            'data'=>$menu->toArray()
+        ]);
+
+    }
+
+    public function getGuestList($eventId)
+    {
+        $event = Event::find($eventId);
+        $guestList = $event->guestList;
+        if(!$guestList)
+        {
+            return $this->respondNotFound('Guest List Not Found!');
+        }
+        return $this->respond([
+            'data'=>$guestList->toArray()
+        ]);
+    }
+
+
+    public function getRoom($eventId)
+    {
+        $event = Event::find($eventId);
+        $room = $event->room;
+        if(!$room)
+        {
+            return $this->respondNotFound('Room Not Found!');
+        }
+        return $this->respond([
+            'data'=>$room->toArray()
+        ]);
     }
 
 
