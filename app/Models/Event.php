@@ -13,6 +13,7 @@ class Event extends BaseModel
         'event_name'=>'required',
         'event_start_date'=>'required|date_format:Y/m/d h:i A',
         'event_end_date'=>'required|date_format:Y/m/d h:i A',
+        'number_of_guests'=>'required|numeric'
     ];
 
     public function user()
@@ -25,9 +26,4 @@ class Event extends BaseModel
     	return $this->hasMany('Guest');
     }
 
-    public function save(array $options = [ ] )
-    {
-        $this->user_id = Auth::user()->id;
-        return parent::save();
-    }
 }

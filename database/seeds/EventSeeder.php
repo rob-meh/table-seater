@@ -20,7 +20,7 @@ class EventSeeder extends Seeder
         $event->event_start_date = Carbon::createFromFormat('Y-m-d h:i A', '2016-05-21 12:00 PM')->toDateTimeString();
         $event->event_end_date = Carbon::createFromFormat('Y-m-d h:i A', '2016-05-21 3:30 PM')->toDateTimeString();
 
-        $user = User::all()->first();
+        $user = User::find(1);
 
         $event->user_id = $user->id;
         $event->save();

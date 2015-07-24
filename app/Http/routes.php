@@ -18,7 +18,7 @@ Route::controllers([
 Route::post('/api/authenticate', 'Api\ApiAuthController@authenticate');
 Route::group(['prefix'=>'api','middleware'=>'jwt.auth'],function(){
 
-    Route::resource('event','EventController');
+    Route::resource('event','EventController',['except'=>['create','edit']]);
     /*Route::get('/event/all','EventController@allEvents');
     Route::get('/event/{id}','EventController@getEvent');
     Route::post('/event/store','EventController@store');*/

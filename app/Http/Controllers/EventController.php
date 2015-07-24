@@ -54,8 +54,51 @@ class EventController extends Api\ApiController
         {
             return $this->respondInvalidData($validator->errors());
         }
+
+        $event->fill($input);
+        $event->user_id = Auth::user()->id;
+        $event->save();
+
+        return $this->respondCreateSuccess($event->event_name . ' created');
+    }
+
+    public function update(Request $request, $eventId)
+    {
+        $input = Input::except('token');
+        $event = Event::find($eventId);
+
+        if(!$event)
+        {
+            return $this->respondNotFound('Event does not exist');
+        }
+        
+        $validator = $event->getValidator($input);
+
+        if($validator->fails())
+        {
+            return $this->respondInvalidData($validator->errors());
+        }
+
         $event->fill($input);
         $event->save();
+        return $this->respondUpdateSuccess($event->event_name . ' updated');
+    }
+
+    public function destroy(Request $request, $eventId)
+    {
+
+        $event = Event::find($eventId);
+
+        if(!$event)
+        {
+            return $this->respondNotFound('Event does not exist');
+        }
+
+        $event_name = $event->event_name;
+
+        $event->delete();
+
+        return $this->respondDeleteSuccess($event_name . ' deleted');
     }
 
 
