@@ -48,6 +48,11 @@ class ApiController extends Controller
         return $this->setStatusCode(500)->prepareResponse('error',$message);
     }
 
+    public function respondExistingRelationship($message = 'Model already has existing relationship')
+    {
+        return $this->setStatusCode(500)->prepareResponse('error',$message);
+    }
+
 
     public function respond($data, $headers = [])
     {

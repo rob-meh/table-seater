@@ -6,28 +6,13 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-class MenuController extends Controller
+use App\Http\Controllers\Api\ApiController;
+use App\Models\Menu;
+use Response;
+use Auth;
+use Input;
+class MenuController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,9 +20,28 @@ class MenuController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $eventId)
     {
-        //
+        $input = Input::except('token');
+        
+        $menu = Menu::firstOrNew(['event_id'=>$eventId]);
+        if($menu->id)
+        {
+            return $this->respondExistingRelationship('Event already has a Menu!');
+        }
+        $validator = $menu->getValidator($input);
+
+        if($validator->fails())
+        {
+            return $this->respondInvalidData($validator->errors());
+        }
+
+        $menu->fill($input);
+        $menu->event_id = $eventId;
+        $menu->save();
+
+        return $this->respondCreateSuccess($menu->menu_name . ' created');
+        
     }
 
     /**
@@ -46,21 +50,18 @@ class MenuController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($eventId)
     {
-        //
+        $menu = Menu::where('event_id','=',$eventId)->get();
+        if(!$menu)
+        {
+            return $this->respondNotFound('Menu Not Found!');
+        }
+        return $this->respond([
+            'data'=>$menu->toArray()
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -69,9 +70,27 @@ class MenuController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $eventId)
     {
-        //
+        $input = Input::except('token');
+        $menu = Menu::where('event_id','=',$eventId)->get()->first();
+
+        if(!$menu)
+        {
+            return $this->respondNotFound('Menu does not exist');
+        }
+
+        $validator = $menu->getValidator($input);
+
+        if($validator->fails())
+        {
+            return $this->respondInvalidData($validator->errors());
+        }
+
+        $menu->fill($input);
+        $menu->save();
+        return $this->respondUpdateSuccess($menu->menu_name . ' updated');
+        
     }
 
     /**
@@ -80,8 +99,18 @@ class MenuController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $eventId)
     {
-        //
+        $menu = Menu::where('event_id','=',$eventId)->get()->first();
+        if(!$menu)
+        {
+            return $this->respondNotFound('Menu does not exist');
+        }
+
+        $menu_name = $menu->menu_name;
+
+        $menu->delete();
+
+        return $this->respondDeleteSuccess($menu_name . ' deleted');
     }
 }

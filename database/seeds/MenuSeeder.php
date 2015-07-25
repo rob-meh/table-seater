@@ -14,7 +14,7 @@ class MenuSeeder extends Seeder
     {
         $menu = new Menu();
         $menu->event_id =1;
-        $menu->name="Test Menu";
+        $menu->menu_name="Test Menu";
         $menu->save();
     }
 }

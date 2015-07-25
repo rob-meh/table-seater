@@ -18,9 +18,13 @@ Route::controllers([
 Route::post('/api/authenticate', 'Api\ApiAuthController@authenticate');
 Route::group(['prefix'=>'api','middleware'=>'jwt.auth'],function(){
 
+	//Event
     Route::resource('event','EventController',['except'=>['create','edit']]);
-    Route::get('event/{id}/menu/','EventController@getMenu');
-    Route::get('event/{id}/room/','EventController@getRoom');
-    Route::get('event/{id}/guest_list/','EventController@getGuestList');
+
+    //Menu
+    Route::post('event/{id}/menu/', ['as'=>'event.{id}.menu.store','uses'=>'MenuController@store']);
+    Route::get('event/{id}/menu/', ['as'=>'event.{id}.menu.show','uses'=>'MenuController@show']);
+    Route::put('event/{id}/menu/', ['as'=>'event.{id}.menu.update','uses'=>'MenuController@update']);
+    Route::delete('event/{id}/menu/', ['as'=>'event.{id}.menu.delete','uses'=>'MenuController@destroy']);
 
 });

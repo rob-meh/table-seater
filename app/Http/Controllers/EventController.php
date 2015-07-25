@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
 
 use App\Models\Event;
 use Auth;
 use Response;
 use Input;
-use DB;
 
-class EventController extends Api\ApiController
+class EventController extends ApiController
 {
 
     /**
@@ -42,7 +42,6 @@ class EventController extends Api\ApiController
             'data'=>$event->toArray()
         ]);
     }
-
 
     public function store(Request $request)
     {
@@ -102,21 +101,6 @@ class EventController extends Api\ApiController
         return $this->respondDeleteSuccess($event_name . ' deleted');
     }
 
-
-    public function getMenu($eventId)
-    {
-        $event = Event::find($eventId);
-        $menu = $event->menu;
-        if(!$menu)
-        {
-            return $this->respondNotFound('Menu Not Found!');
-        }
-        return $this->respond([
-            'data'=>$menu->toArray()
-        ]);
-
-    }
-
     public function getGuestList($eventId)
     {
         $event = Event::find($eventId);
@@ -129,7 +113,6 @@ class EventController extends Api\ApiController
             'data'=>$guestList->toArray()
         ]);
     }
-
 
     public function getRoom($eventId)
     {

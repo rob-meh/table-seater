@@ -3,10 +3,7 @@
 namespace App\Models;
 use App\BaseModel;
 use Illuminate\Database\Eloquent\Model;
-use App\User;
-use App\Models\Menu;
-use App\Models\Room;
-use App\Models\Guest;
+
 class Event extends BaseModel
 {
     //protected $hidden =['user_id'];
