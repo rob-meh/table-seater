@@ -3,16 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-class Room extends Model
+use App\BaseModel;
+class Room extends BaseModel
 {
+	protected $fillable =['length','width'];
+	protected $rules =[
+		'length'=>'required|numeric',
+		'width'=>'required|numeric',
+	];
+
     public function event()
     {
-    	return $this->belongsTo('Event');
+    	return $this->belongsTo('App\Models\Event');
     }
 
     public function tables()
     {
-    	return $this->hasMany('Table');
+    	return $this->hasMany('App\Models\Table');
     }
 }

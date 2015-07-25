@@ -35,6 +35,6 @@ class Guest extends Model
 
     public function menuItem()
     {
-        return $this->hasOne('MenuItem','id','menu_item_id');
+        return $this->hasOne('App\Models\GuestMenuItem');
     }
 }

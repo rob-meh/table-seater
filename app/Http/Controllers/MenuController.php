@@ -52,7 +52,7 @@ class MenuController extends ApiController
      */
     public function show($eventId)
     {
-        $menu = Menu::where('event_id','=',$eventId)->get();
+        $menu = Menu::where('event_id','=',$eventId)->get()->first();
         if(!$menu)
         {
             return $this->respondNotFound('Menu Not Found!');

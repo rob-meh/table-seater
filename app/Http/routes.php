@@ -27,4 +27,17 @@ Route::group(['prefix'=>'api','middleware'=>'jwt.auth'],function(){
     Route::put('event/{id}/menu/', ['as'=>'event.{id}.menu.update','uses'=>'MenuController@update']);
     Route::delete('event/{id}/menu/', ['as'=>'event.{id}.menu.delete','uses'=>'MenuController@destroy']);
 
+    //Menu Items
+    Route::post('event/{id}/menu/menu_item', ['as'=>'event.{id}.menu.store','uses'=>'MenuItemController@store']);
+    Route::get('event/{id}/menu/menu_items', ['as'=>'event.{id}.menu.menu_item.index','uses'=>'MenuItemController@index']);
+    Route::get('event/{id}/menu/menu_item/{item_id}', ['as'=>'event.{id}.menu.menu_item.{item_id}.show','uses'=>'MenuItemController@show']);
+    Route::put('event/{id}/menu/menu_item/{item_id}', ['as'=>'event.{id}.menu.menu_item.{item_id}.update','uses'=>'MenuItemController@update']);
+    Route::delete('event/{id}/menu/menu_item/{item_id}', ['as'=>'event.{id}.menu.menu_item.{item_id}.delete','uses'=>'MenuItemController@destroy']);
+
+    //Room
+    Route::post('event/{id}/room/', ['as'=>'event.{id}.room.store','uses'=>'RoomController@store']);
+    Route::get('event/{id}/room/', ['as'=>'event.{id}.room.show','uses'=>'RoomController@show']);
+    Route::put('event/{id}/room/', ['as'=>'event.{id}.room.update','uses'=>'RoomController@update']);
+    Route::delete('event/{id}/room/', ['as'=>'event.{id}.room.delete','uses'=>'RoomController@destroy']);
+
 });

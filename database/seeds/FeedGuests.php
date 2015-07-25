@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\Guest;
 use App\Models\MenuItem;
-
+use App\Models\GuestMenuItem;
 class FeedGuests extends Seeder
 {
     /**
@@ -15,8 +15,11 @@ class FeedGuests extends Seeder
     {
         
         foreach (Guest::all() as $guest) {
-            $guest->menu_item_id = rand(1,3);
-            $guest->save();
+            $itemChoice = rand(1,3);
+            $guestMenuItem  = new GuestMenuItem();
+            $guestMenuItem->guest_id = $guest->id;
+            $guestMenuItem->menu_item_id = $itemChoice;
+            $guestMenuItem->save();
         }
     }
 }

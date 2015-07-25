@@ -17,7 +17,7 @@ class CreateMenuItemsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('menu_id')->unsigned();
-            $table->foreign('menu_id')->references('id')->on('menus');
+            $table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
             $table->timestamps();
 
         });
@@ -30,9 +30,9 @@ class CreateMenuItemsTable extends Migration
      */
     public function down()
     {
-        Schema::table('guests',function(Blueprint $table){
+        /*Schema::table('guests',function(Blueprint $table){
             $table->dropForeign('guests_menu_item_id_foreign');
-        });
+        });*/
         
         Schema::drop('menu_items');
     }

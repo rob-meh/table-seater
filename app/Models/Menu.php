@@ -14,11 +14,11 @@ class Menu extends BaseModel
 	];
     public function event()
     {
-        return $this->belongsTo('Event');
+        return $this->belongsTo('App\Models\Event');
     }
 
     public function menuItems()
     {
-        return $this->hasMany('MenuItem');
+        return $this->hasMany('App\Models\MenuItem');
     }
 }
