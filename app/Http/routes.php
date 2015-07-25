@@ -40,4 +40,13 @@ Route::group(['prefix'=>'api','middleware'=>'jwt.auth'],function(){
     Route::put('event/{id}/room/', ['as'=>'event.{id}.room.update','uses'=>'RoomController@update']);
     Route::delete('event/{id}/room/', ['as'=>'event.{id}.room.delete','uses'=>'RoomController@destroy']);
 
+    //Tables
+    Route::post('event/{id}/room/table', ['as'=>'event.{id}.room.store','uses'=>'TableController@store']);
+    Route::get('event/{id}/room/tables', ['as'=>'event.{id}.room.table.index','uses'=>'TableController@index']);
+    Route::get('event/{id}/room/table/{table_id}/guests', ['as'=>'event.{id}.room.table.index','uses'=>'TableController@tableGuests']);
+    Route::get('event/{id}/room/table/{table_id}', ['as'=>'event.{id}.room.table.{table_id}.show','uses'=>'TableController@show']);
+    Route::put('event/{id}/room/table/{table_id}', ['as'=>'event.{id}.room.table.{table_id}.update','uses'=>'TableController@update']);
+    Route::delete('event/{id}/room/table/{item_id}', ['as'=>'event.{id}.room.table.{item_id}.delete','uses'=>'TableController@destroy']);
+    Route::put('event/{id}/room/table/{table_id}/seat_guest', ['as'=>'event.{id}.room.seatGuest','uses'=>'TableController@seatGuest']);
+    Route::put('event/{id}/room/table/{table_id}/remove_guest', ['as'=>'event.{id}.room.removeGuest','uses'=>'TableController@removeGuest']);
 });

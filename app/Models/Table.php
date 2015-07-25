@@ -4,9 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Guest;
+use App\BaseModel;
 
-class Table extends Model
+class Table extends BaseModel
 {
+
+	protected $fillable=['number_of_seats','table_name','length','width'];
+	protected $rules=[
+		'number_of_seats'=>'required',
+		'length'=>'numeric',
+		'width'=>'numeric',
+	];
 	public function room()
 	{
 		return $this->belongsTo('Room');
@@ -31,5 +39,10 @@ class Table extends Model
 			}
 		}
 		return false;
+	}
+
+	public function guestsAtTable()
+	{
+		return  Guest::where('table_id','=', $this->id)->get();
 	}
 }

@@ -23,7 +23,7 @@ class CreateTablesTable extends Migration
             $table->integer('room_id')->unsigned();
             $table->foreign('room_id')->references('id')->on('rooms');
 
-            $table->integer('table_type_id')->unsigned();
+            $table->integer('table_type_id')->unsigned()->nullable();
             $table->foreign('table_type_id')->references('id')->on('table_types');
             $table->timestamps();
 

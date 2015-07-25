@@ -15,17 +15,17 @@ class Guest extends Model
 
     public function event()
     {
-    	return $this->belongsTo('Event','id','event_id');
+    	return $this->belongsTo('App\Models\Event');
     }
 
     public function table()
     {
-    	return $this->belongsTo('Table','id','table_id');
+    	return $this->belongsTo('App\Models\Table');
     }
 
     public function plusOne()
     {
-    	return $this->hasOne('Guest','id','plus_one');
+    	return $this->hasOne('App\Models\Guest');
     }
 
     public function plusOneOf()
@@ -36,5 +36,10 @@ class Guest extends Model
     public function menuItem()
     {
         return $this->hasOne('App\Models\GuestMenuItem');
+    }
+
+    public function getName()
+    {
+        return $this->first_name .' '. $this->last_name;
     }
 }

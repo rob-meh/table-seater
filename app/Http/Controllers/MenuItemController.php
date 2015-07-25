@@ -12,7 +12,6 @@ use App\Models\MenuItem;
 use App\Models\GuestMenuItem;
 use Input;
 use Response;
-use DB;
 class MenuItemController extends ApiController
 {
     /**

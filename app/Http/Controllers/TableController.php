@@ -6,28 +6,28 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-class TableController extends Controller
+use App\Http\Controllers\Api\ApiController;
+use App\Models\Event;
+use App\Models\Table;
+use App\Models\Room;
+use App\Models\Guest;
+use Input;
+use Response;
+class TableController extends ApiController
 {
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index()
+    public function index($roomId)
     {
-        //
+        $tables = Room::where('id','=',$roomId)->first()->tables;
+        return $this->respond([
+            'data'=>$tables->toArray()
+            ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,9 +35,25 @@ class TableController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $eventId)
     {
-        //
+        $input = Input::except('token');
+        $roomId = Event::find($eventId)->room->id;
+        $tableType = 
+        $table = new Table();
+        $validator = $table->getValidator($input);
+
+        if($validator->fails())
+        {
+            return $this->respondInvalidData($validator->errors());
+        }
+
+        $table->fill($input);
+        $table->room_id = $roomId;
+        $table->save();
+        return $this->respondCreateSuccess('Table: ' . $table->table_name . ' created');
+
+
     }
 
     /**
@@ -46,21 +62,18 @@ class TableController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show(Request $request, $eventId, $tableId)
     {
-        //
+        $table = Table::find($tableId);
+        if(!$table->event_id === $eventId)
+        {
+            return $this->respondNotFound('Table Not Found');
+        }
+        return $this->respond([
+            'data'=>$table->toArray()
+            ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -69,9 +82,22 @@ class TableController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $eventId, $tableId)
     {
-        //
+        $table = Table::findOrFail($tableId);
+        $input = Input::except('token');
+
+        $validator = $table->getValidator($input);
+
+        if($validator->fails())
+        {
+            return $this->respondInvalidData($validator->errors());
+        }
+
+        $table->fill($input);
+        $table->save();
+        return $this->respondUpdateSuccess('Table: '.$table->table_name . ' updated');
+        
     }
 
     /**
@@ -80,8 +106,59 @@ class TableController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $eventId, $tableId)
     {
-        //
+        $table = Table::find($tableId);
+        foreach ($table->guestsAtTable() as $guest) {
+            $guest->table_id = null;
+            $guest->save();
+        }
+        $tableName = $table->table_name;
+        $table->delete();
+        return $this->respondDeleteSuccess($tableName . ' deleted');
+
+    }
+
+    public function tableGuests(Request $request, $eventId, $tableId)
+    {
+        $guests = Table::find($tableId)->guestsAtTable();
+        return $this->respond([
+            'data'=>$guests->toArray()
+            ]);
+    }
+
+    public function seatGuest(Request $request, $eventId, $tableId)
+    {
+        $guest = Guest::find(Input::get('guest_id'));
+
+        if($guest->table_id)
+        {
+            return $this->respondExistingRelationship('Guest is already seated at ' . $guest->table->table_name);
+        } 
+
+        $table = Table::find($tableId);
+
+        if($table->seatGuest($guest))
+        {
+           return $this->prepareResponse('success', $guest->getName() . ' now seated at '.$table->table_name);
+        }
+        else
+        {
+           return $this->prepareResponse('error', $table->table_name.' is full');
+        }
+
+    }
+
+    public function removeGuest(Request $request, $eventId, $tableId)
+    {
+        $guest = Guest::find(Input::get('guest_id'));
+        if($guest->table_id !== $tableId )
+        {
+            return $this->prepareResponse('error', $guest->getName() . ' not seated at this table');
+        }
+
+        $guest->table_id = null;
+        $guest->save();
+        return $this->prepareResponse('success', $guest->getName() . ' removed from the table');
     }
 }
