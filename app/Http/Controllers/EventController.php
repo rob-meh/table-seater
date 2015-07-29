@@ -25,9 +25,7 @@ class EventController extends ApiController
     {
         $events = Event::where('user_id','=',Auth::user()->id)->get();
 
-        return $this->respond([
-            'data'=>$events->toArray()
-        ]);
+        return $events;
     }
 
     public function show($eventId)
@@ -39,7 +37,7 @@ class EventController extends ApiController
             return $this->respondNotFound('Event does not exist');
         }
         return $this->respond([
-            'data'=>$event->toArray()
+            $event->toArray()
         ]);
     }
 
@@ -110,7 +108,7 @@ class EventController extends ApiController
             return $this->respondNotFound('Guest List Not Found!');
         }
         return $this->respond([
-            'data'=>$guestList->toArray()
+            $guestList->toArray()
         ]);
     }
 
@@ -123,7 +121,7 @@ class EventController extends ApiController
             return $this->respondNotFound('Room Not Found!');
         }
         return $this->respond([
-            'data'=>$room->toArray()
+            $room->toArray()
         ]);
     }
 

@@ -45,4 +45,10 @@ class Table extends BaseModel
 	{
 		return  Guest::where('table_id','=', $this->id)->get();
 	}
+
+	public function getTableTypeIdAttribute($value)
+	{
+		return TableType::where('id','=',$value)->first()->type;
+	}
+
 }
