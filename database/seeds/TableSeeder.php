@@ -18,7 +18,8 @@ class TableSeeder extends Seeder
         	$table->table_name = 'Table '.$index;
         	$table->room_id = 1;
         	$table->table_type_id = 2;
-        	$table->width = 6;
+            $table->width = 6;
+        	$table->length = 6;
         	$table->save();
             
         }
