@@ -45,6 +45,11 @@ class Guest extends Model
 
     public function getTableNameAttribute($value)
     {
-        return Table::where('id','=',$value)->first()->table_name;
+        return Table::where('id','=',$this->table_id)->first()->table_name;
+    }
+
+    public function getMenuChoiceAttribute()
+    {
+        return GuestMenuItem::where('guest_id','=',$this->id)->first()->menuItem->name;
     }
 }
