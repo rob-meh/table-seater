@@ -15,7 +15,9 @@ class Table extends BaseModel
 		'length'=>'numeric',
 		'width'=>'numeric',
 	];
-	protected $appends =['table_population','event_id'];
+	protected $appends =[
+	'table_population'
+	];
 	public function room()
 	{
 		return $this->belongsTo('Room');
@@ -57,9 +59,6 @@ class Table extends BaseModel
 		return  Guest::where('table_id','=', $this->id)->count();
 	}
 
-	public function getEventIdAttribute()
-	{
-		return $this->room->event->id;
-	}
+	
 
 }
