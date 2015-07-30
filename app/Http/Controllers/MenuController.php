@@ -58,7 +58,7 @@ class MenuController extends ApiController
             return $this->respondNotFound('Menu Not Found!');
         }
         return $this->respond([
-            'data'=>$menu->toArray()
+            $menu->toArray()
         ]);
     }
 

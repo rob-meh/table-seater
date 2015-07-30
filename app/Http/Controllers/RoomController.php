@@ -57,7 +57,7 @@ class RoomController extends ApiController
             return $this->respondNotFound('Room Not Found!');
         }
         return $this->respond([
-            'data'=>$room->toArray()
+            $room->toArray()
         ]);
     }
 

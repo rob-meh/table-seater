@@ -24,8 +24,8 @@ class TableController extends ApiController
     {
         $tables = Room::where('id','=',$roomId)->first()->tables;
         return $this->respond([
-            'data'=>$tables->toArray()
-            ]);
+            $tables->toArray()
+        ]);
     }
 
 
@@ -70,8 +70,8 @@ class TableController extends ApiController
             return $this->respondNotFound('Table Not Found');
         }
         return $this->respond([
-            'data'=>$table->toArray()
-            ]);
+            $tables->toArray()
+        ]);
     }
 
 
@@ -123,8 +123,8 @@ class TableController extends ApiController
     {
         $guests = Table::find($tableId)->guestsAtTable();
         return $this->respond([
-            'data'=>$guests->toArray()
-            ]);
+            $guests->toArray()
+        ]);
     }
 
     public function seatGuest(Request $request, $eventId, $tableId)
@@ -140,25 +140,25 @@ class TableController extends ApiController
 
         if($table->seatGuest($guest))
         {
-           return $this->prepareResponse('success', $guest->getName() . ' now seated at '.$table->table_name);
-        }
-        else
-        {
-           return $this->prepareResponse('error', $table->table_name.' is full');
-        }
+         return $this->prepareResponse('success', $guest->getName() . ' now seated at '.$table->table_name);
+     }
+     else
+     {
+         return $this->prepareResponse('error', $table->table_name.' is full');
+     }
 
-    }
+ }
 
-    public function removeGuest(Request $request, $eventId, $tableId)
+ public function removeGuest(Request $request, $eventId, $tableId)
+ {
+    $guest = Guest::find(Input::get('guest_id'));
+    if($guest->table_id !== $tableId )
     {
-        $guest = Guest::find(Input::get('guest_id'));
-        if($guest->table_id !== $tableId )
-        {
-            return $this->prepareResponse('error', $guest->getName() . ' not seated at this table');
-        }
-
-        $guest->table_id = null;
-        $guest->save();
-        return $this->prepareResponse('success', $guest->getName() . ' removed from the table');
+        return $this->prepareResponse('error', $guest->getName() . ' not seated at this table');
     }
+
+    $guest->table_id = null;
+    $guest->save();
+    return $this->prepareResponse('success', $guest->getName() . ' removed from the table');
+}
 }

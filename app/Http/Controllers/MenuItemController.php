@@ -23,7 +23,7 @@ class MenuItemController extends ApiController
     {
         $menu_items = Menu::where('event_id','=',$eventId)->first()->menuItems;
         return $this->respond([
-            'data'=>$menu_items->toArray()
+            $menu_items->toArray()
         ]);
     }
 
@@ -74,7 +74,7 @@ class MenuItemController extends ApiController
             return $this->respondNotFound('Menu Item Not Found');
         }
         return $this->respond([
-            'data'=>$menuItem->toArray()
+                $menuItem->toArray()
             ]);
     }
 
