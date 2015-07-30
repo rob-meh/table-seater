@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\BaseModel;
+use App\Models\GuestMenuItem;
 
 class MenuItem extends BaseModel
 {
@@ -12,7 +13,8 @@ class MenuItem extends BaseModel
 		'name'=>'required'
 	];
 	protected $appends =[
-		'menu_name'
+		'menu_name',
+		'number_of_times_ordered'
 	];
     public function menu()
     {
@@ -22,5 +24,9 @@ class MenuItem extends BaseModel
     public function getMenuNameAttribute()
     {
     	return $this->menu->menu_name;
+    }
+
+    public function getNumberOfTimesOrderedAttribute(){
+    	return GuestMenuItem::where('menu_item_id','=',$this->id)->count();
     }
 }
