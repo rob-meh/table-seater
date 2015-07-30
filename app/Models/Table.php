@@ -15,7 +15,7 @@ class Table extends BaseModel
 		'length'=>'numeric',
 		'width'=>'numeric',
 	];
-	protected $appends =['table_population'];
+	protected $appends =['table_population','event_id'];
 	public function room()
 	{
 		return $this->belongsTo('Room');

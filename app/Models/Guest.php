@@ -8,6 +8,10 @@ use App\Models\MenuItem;
 
 class Guest extends Model
 {
+    protected $appends =[
+        'table_name',
+        'menu_choice'
+    ];
     public function dietaryRestriction()
     {
     	$this->hasMany('GuestDietaryRestriction','guest_id','id');
