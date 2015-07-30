@@ -57,4 +57,9 @@ class Table extends BaseModel
 		return  Guest::where('table_id','=', $this->id)->count();
 	}
 
+	public function getEventIdAttribute()
+	{
+		return $this->room->event->id;
+	}
+
 }
