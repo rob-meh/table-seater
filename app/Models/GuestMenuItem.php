@@ -13,6 +13,6 @@ class GuestMenuItem extends Model
 
     public function menuItem()
     {
-    	return $this->hasOne('App\Models\MenuItem');
+    	return $this->hasOne('App\Models\MenuItem','id','menu_item_id');
     }
 }
