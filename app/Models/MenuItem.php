@@ -11,9 +11,16 @@ class MenuItem extends BaseModel
 	protected $rules = [
 		'name'=>'required'
 	];
-
+	protected $appends =[
+		'menu_name'
+	];
     public function menu()
     {
         return $this->belongsTo('App\Models\Menu');
+    }
+
+    public function getMenuNameAttribute()
+    {
+    	return $this->menu->menu_name;
     }
 }
