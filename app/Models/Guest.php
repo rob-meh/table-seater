@@ -43,7 +43,7 @@ class Guest extends Model
         return $this->first_name .' '. $this->last_name;
     }
 
-    public function getTableIdAttribute($value)
+    public function getTableNameAttribute($value)
     {
         return Table::where('id','=',$value)->first()->table_name;
     }
