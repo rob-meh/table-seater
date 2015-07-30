@@ -20,11 +20,11 @@ class TableController extends ApiController
      *
      * @return Response
      */
-    public function index($roomId)
+    public function index($eventId)
     {
-        $tables = Room::where('id','=',$roomId)->first()->tables;
+        $tables = Event::where('id','=',$eventId)->first()->room->tables;
         return $this->respond([
-            $tables->toArray()
+            $tables
         ]);
     }
 

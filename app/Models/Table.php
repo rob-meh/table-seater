@@ -15,6 +15,7 @@ class Table extends BaseModel
 		'length'=>'numeric',
 		'width'=>'numeric',
 	];
+	protected $appends =['table_population'];
 	public function room()
 	{
 		return $this->belongsTo('Room');
@@ -49,6 +50,11 @@ class Table extends BaseModel
 	public function getTableTypeIdAttribute($value)
 	{
 		return TableType::where('id','=',$value)->first()->type;
+	}
+
+	public function getTablePopulationAttribute()
+	{
+		return  Guest::where('table_id','=', $this->id)->count();
 	}
 
 }
